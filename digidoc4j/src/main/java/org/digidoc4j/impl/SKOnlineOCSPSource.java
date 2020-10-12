@@ -132,7 +132,7 @@ public abstract class SKOnlineOCSPSource implements OCSPSource {
     BasicOCSPResp ocspResponse = parseAndVerifyOCSPResponse(response, accessLocation);
     checkNonce(ocspResponse, nonceExtension);
 
-    OCSPToken ocspToken = constructOCSPToken(ocspResponse, certificateID, accessLocation);
+    OCSPToken ocspToken = constructOCSPToken(certificateToken, ocspResponse, certificateID, accessLocation);
     verifyOCSPToken(ocspToken);
     return ocspToken;
   }
@@ -261,11 +261,12 @@ public abstract class SKOnlineOCSPSource implements OCSPSource {
     }
   }
 
-  private OCSPToken constructOCSPToken(BasicOCSPResp ocspResponse, CertificateID certificateID, String accessLocation) {
+  private OCSPToken constructOCSPToken(CertificateToken relatedCertificate, BasicOCSPResp ocspResponse, CertificateID certificateID, String accessLocation) {
     OCSPToken token = new OCSPToken();
     token.setBasicOCSPResp(ocspResponse);
     token.setCertId(certificateID);
     token.setSourceURL(accessLocation);
+    token.setRelatedCertificate(relatedCertificate);
     token.initInfo();
     return token;
   }
