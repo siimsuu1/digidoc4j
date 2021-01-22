@@ -26,4 +26,5 @@ jobs:
       - name: Build with Maven
         env:
           TZ: Europe/Helsinki
+          org.bouncycastle.asn1.allow_unsafe_integer: true
         run: mvn clean verify -q -"Dgpg.skip"
