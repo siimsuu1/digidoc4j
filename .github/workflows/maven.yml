@@ -18,10 +18,12 @@ jobs:
         os: [ubuntu-18.04, windows-latest]
         java: [ 8, 11, 15 ]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java }}
-    - name: Build with Maven
-      run: mvn clean package 
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Build with Maven
+        env:
+          TZ: Europe/Helsinki
+        run: mvn clean verify -q -"Dgpg.skip"
